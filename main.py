@@ -2,7 +2,7 @@ import serial
 import pyautogui
 import time
 
-serial_port = '/dev/tty.usbmodem1101' # Siia peab kirjutama oma arduino porti. Hiljem võib ka testida, find_arduino.py abil, mis port see on.
+serial_port = 'COM14' # Siia peab kirjutama oma arduino porti. Hiljem võib ka testida, find_arduino.py abil, mis port see on.
 baud_rate = 9600
 
 # Tee jada side lahti
@@ -25,8 +25,6 @@ def process_message(message):
                 key = 'left'
         elif function == 'p':
             key = 'down'
-        # elif function == 'g':
-        #     key = 'up'
         else:
             key = None
         return abs(delay), key
