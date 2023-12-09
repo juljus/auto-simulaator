@@ -9,7 +9,7 @@ int rool_min = 0;
 int rool_max = 1024;
 
 int disable_nupp = 5;
-int disabled = 1;
+int disabled = 0;
 
 void setup() {
   rool_min = EEPROM.read(0);
@@ -66,14 +66,17 @@ void loop() {
 
   int rool_mapped = map(rool_v, rool_min, rool_max, -100, 100);
 
-if (disabled == 0) {
-  Serial.print(rool_mapped);
-  Serial.println(" r");
+  if (disabled == 0) {
+    Serial.print(-5);
+    Serial.println(" r");
 
-  Serial.print(gaas_v);
-  Serial.println(" g");
+    if (gaas_v == 1) {
+    Serial.print("1");
+    Serial.println(" g");
 
-  Serial.print(pidur_v);
-  Serial.println(" p");
+    if (pidur_v == 1) {
+    Serial.print("1");
+    Serial.println(" p");
+    }
   }
 }
