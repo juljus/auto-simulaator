@@ -8,11 +8,16 @@ int nupp_vajutused = 0;
 int rool_min = 0;
 int rool_max = 1024;
 
+int disable_nupp = 5;
+int disabled = 1;
+
 void setup() {
   rool_min = EEPROM.read(0);
   rool_max = EEPROM.read(1);
 
   Serial.begin(9600);
+
+  pinMode(disable_nupp, INPUT);
   pinMode(rool, INPUT);
   pinMode(gaas, INPUT);
   pinMode(pidur, INPUT);
@@ -25,6 +30,20 @@ void loop() {
   int gaas_v = analogRead(gaas);
   int pidur_v = digitalRead(pidur);
   int nupp_v = digitalRead(nupp);
+
+  if (digitalRead(disable_nupp)) {
+
+    if (disabled == 1) {
+      disabled = 0;
+    }
+    else {
+      disabled = 1;
+    }
+
+    while (digitalRead(disable_nupp)) {
+      delay(0);
+    }
+  }
 
   if (nupp_v == 0 && nupp_vajutused == 0) {
     nupp_vajutused += 1;
@@ -47,14 +66,14 @@ void loop() {
 
   int rool_mapped = map(rool_v, rool_min, rool_max, -100, 100);
 
-  // Serial.print(rool_mapped);
-  // Serial.println(" r");
+  Serial.print(rool_mapped);
+  Serial.println(" r");
 
-  //Serial.print(gaas_v);
-  //Serial.println(" g");
+  Serial.print(gaas_v);
+  Serial.println(" g");
 
-  //Serial.print(pidur_v);
-  //Serial.println(" p");
+  Serial.print(pidur_v);
+  Serial.println(" p");
   
-  //Serial.println(nupp_v);
+  // Serial.println(nupp_v);
 }
