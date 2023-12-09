@@ -66,6 +66,7 @@ void loop() {
 
   int rool_mapped = map(rool_v, rool_min, rool_max, -100, 100);
 
+if (disabled == 0) {
   Serial.print(rool_mapped);
   Serial.println(" r");
 
@@ -74,6 +75,5 @@ void loop() {
 
   Serial.print(pidur_v);
   Serial.println(" p");
-  
-  // Serial.println(nupp_v);
+  }
 }
