@@ -1,5 +1,7 @@
 #include <EEPROM.h>
 
+#define MIN_ADDRESS 0
+#define MAX_ADDRESS 100
 int rool = A0;
 int gaas = 7;
 int pidur = 3;
@@ -12,16 +14,21 @@ int disable_nupp = 5;
 int disabled = 0;
 
 void setup() {
-  rool_min = EEPROM.read(0);
-  rool_max = EEPROM.read(1);
+  EEPROM.get(MIN_ADDRESS, rool_min);
+  EEPROM.get(MAX_ADDRESS, rool_max);
 
   Serial.begin(9600);
+  Serial.println("Starting program");
+  Serial.print("Rool min ");
+  Serial.println(rool_min);
+  Serial.print("Rool max ");
+  Serial.println(rool_max);
 
   pinMode(disable_nupp, INPUT_PULLUP);
-  pinMode(rool, INPUT);
   pinMode(gaas, INPUT_PULLUP);
   pinMode(pidur, INPUT_PULLUP);
   pinMode(nupp, INPUT_PULLUP);
+  delay(5000);
 
 }
 
@@ -50,20 +57,23 @@ void loop() {
     nupp_vajutused += 1;
 
     rool_min = rool_v;
-    EEPROM.write(0, rool_min);
+    EEPROM.put(MIN_ADDRESS, rool_min);
     Serial.println(rool_min);
-    delay(3000);
+    Serial.println("Written to EEPROM min");
+    delay(10000);
   }
   else if (nupp_v == 0 && nupp_vajutused == 1) {
     nupp_vajutused += 1;
 
     rool_max = rool_v;
-    EEPROM.write(1, rool_max);
+    EEPROM.put(MAX_ADDRESS, rool_max);
     Serial.println(rool_max);
-    delay(3000);
+    Serial.println("Written to EEPROM max");
+    delay(10000);
   }
   else if (nupp_v == 0 && nupp_vajutused > 1) {
     Serial.println("kalibreerimine on juba lõppenud");
+    delay(10000);
   }
 
   int rool_mapped = map(rool_v, rool_min, rool_max, -100, 100);
@@ -82,4 +92,5 @@ void loop() {
       Serial.println(" p");
     }
   }
+  delay(10);
 }
