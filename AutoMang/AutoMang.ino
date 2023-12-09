@@ -1,7 +1,7 @@
 #include <EEPROM.h>
 
 int rool = A0;
-int gaas = A1;
+int gaas = 7;
 int pidur = 3;
 int nupp = 2;
 int nupp_vajutused = 0;
@@ -17,17 +17,17 @@ void setup() {
 
   Serial.begin(9600);
 
-  pinMode(disable_nupp, INPUT);
+  pinMode(disable_nupp, INPUT_PULLUP);
   pinMode(rool, INPUT);
-  pinMode(gaas, INPUT);
-  pinMode(pidur, INPUT);
+  pinMode(gaas, INPUT_PULLUP);
+  pinMode(pidur, INPUT_PULLUP);
   pinMode(nupp, INPUT_PULLUP);
 
 }
 
 void loop() {
   int rool_v = analogRead(rool);
-  int gaas_v = analogRead(gaas);
+  int gaas_v = digitalRead(gaas);
   int pidur_v = digitalRead(pidur);
   int nupp_v = digitalRead(nupp);
 
@@ -40,8 +40,9 @@ void loop() {
       disabled = 1;
     }
 
-    while (digitalRead(disable_nupp)) {
+    while (digitalRead(disable_nupp) == 0) {
       delay(0);
+      Serial.println("???");
     }
   }
 
@@ -59,6 +60,7 @@ void loop() {
     rool_max = rool_v;
     EEPROM.write(1, rool_max);
     Serial.println(rool_max);
+    delay(3000);
   }
   else if (nupp_v == 0 && nupp_vajutused > 1) {
     Serial.println("kalibreerimine on juba lõppenud");
@@ -67,16 +69,17 @@ void loop() {
   int rool_mapped = map(rool_v, rool_min, rool_max, -100, 100);
 
   if (disabled == 0) {
-    Serial.print(-5);
+    Serial.print(rool_mapped);
     Serial.println(" r");
 
-    if (gaas_v == 1) {
-    Serial.print("1");
-    Serial.println(" g");
+    if (gaas_v == 0) {
+      Serial.print("1");
+      Serial.println(" g");
+    }
 
-    if (pidur_v == 1) {
-    Serial.print("1");
-    Serial.println(" p");
+    if (pidur_v == 0) {
+      Serial.print("1");
+      Serial.println(" p");
     }
   }
 }
