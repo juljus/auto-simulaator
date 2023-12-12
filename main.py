@@ -21,16 +21,16 @@ def process_message(message):
             delay = 0
 
         # TODO! Lisada teised funktsioonid
-        fixing_negative = 1 
-        fixing_positive = 1
+        # fixing_negative = 1 
+        # fixing_positive = 1
         key = ''
         if function == 'r':
             if delay < 0:
                 key = 'a'
-                delay *= fixing_negative
+                # delay *= fixing_negative
             elif delay > 0:
                 key = 'd'
-                delay *= fixing_positive
+                # delay *= fixing_positive
             else:
                 key = 'up'
                 delay = 0
