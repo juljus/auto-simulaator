@@ -22,20 +22,19 @@ def process_message(message):
 
         key = ''
         number = int(number)
-        match function:
-            case 'r': 
-                if number < -rool_neutral:
-                    key = 'a'
-                elif number > rool_neutral:
-                    key = 'd'
-                else:
-                    key = 'neutral'
-            case 'p':
-                key = 's'
-            case 'g':
-                key = 'w'
-            case 'n':
-                key = 'up'
+        if function == 'r':
+            if number < -rool_neutral:
+                key = 'a'
+            elif number > rool_neutral:
+                key = 'd'
+            else:
+                key = 'neutral'
+        elif function == 'p':
+            key = 's'
+        elif function == 'g':
+            key = 'w'
+        elif function == 'n':
+            key = 'up'
 
         return key, abs(number)
 
@@ -56,27 +55,26 @@ if __name__ == "__main__":
             else:
                 try:
                     print("key: " + key, "; number: " + str(number))
-                    match key:
-                        case 'a':
-                            keyboard.press(key)
-                            keyboard.release('d')
-                        case 'd':
-                            keyboard.press(key)
-                            keyboard.release('a')
-                        case 'neutral':
-                            keyboard.release('a')
-                            keyboard.release('d')
-                        case 's':
-                            keyboard.press(key)
-                            keyboard.release('w')
-                        case 'w':
-                            keyboard.press(key)
-                            keyboard.release('s')
-                        case 'up':
-                            keyboard.release('w')
-                            keyboard.release('s')
-                        case _:
-                            pass
+                    if key == 'a':
+                        keyboard.press(key)
+                        keyboard.release('d')
+                    elif key == 'd':
+                        keyboard.press(key)
+                        keyboard.release('a')
+                    elif key == 'neutral':
+                        keyboard.release('a')
+                        keyboard.release('d')
+                    elif key == 's':
+                        keyboard.press(key)
+                        keyboard.release('w')
+                    elif key == 'w':
+                        keyboard.press(key)
+                        keyboard.release('s')
+                    elif key == 'up':
+                        keyboard.release('w')
+                        keyboard.release('s')
+                    else:
+                        pass
 
                 except KeyboardInterrupt:
                     print("KeyboardInterrupt: Stopping the script.")
